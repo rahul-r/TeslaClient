@@ -8,6 +8,8 @@ package org.noroomattheinn.tesla;
 
 import java.util.Locale;
 import java.util.logging.Level;
+
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.noroomattheinn.utils.Utils;
 import us.monoid.json.JSONArray;
@@ -70,7 +72,7 @@ public class Vehicle {
     private final boolean       remoteStartEnabled;
     private final boolean       notificationsEnabled;
     private final boolean       calendarEnabled;
-    private final String        uuid;
+    //private final String        uuid;
     
 
 /*==============================================================================
@@ -89,7 +91,7 @@ public class Vehicle {
         userID = description.optString("user_id");
         streamingVID = description.optString("vehicle_id");
         vin = description.optString("vin");
-        uuid = DigestUtils.sha256Hex(vin);
+        //uuid = DigestUtils.sha256Hex(vin);
         status = description.optString("state");
         remoteStartEnabled = description.optBoolean("remote_start_enabled");
         notificationsEnabled = description.optBoolean("notifications_enabled");
@@ -153,7 +155,7 @@ public class Vehicle {
     
     public String   getVIN() { return vin; }
     public String   getVID() { return vehicleID; }
-    public String   getUUID() { return uuid; }
+    //public String   getUUID() { return uuid; }
     public String   getStreamingVID() { return streamingVID; }
     public String   status() { return status; } // Status can be "asleep", "waking", or "online"
     public Options  getOptions() { return options; }

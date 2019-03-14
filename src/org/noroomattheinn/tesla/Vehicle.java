@@ -9,8 +9,6 @@ package org.noroomattheinn.tesla;
 import java.util.Locale;
 import java.util.logging.Level;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.noroomattheinn.utils.Utils;
 import us.monoid.json.JSONArray;
 import us.monoid.json.JSONException;
@@ -40,6 +38,7 @@ public class Vehicle {
     public enum PanoCommand {open, comfort, vent, close};
 
     // The following are effectively constants, but are set in the constructor
+    private final String    AllData;
     private final String    ChargeEndpoint, DriveEndpoint, GUIEndpoint,
                             HVACEndpoint, VehicleStateEndpoint;
     private final String    HVAC_Start, HVAC_Stop, HVAC_SetTemp;
@@ -114,6 +113,7 @@ public class Vehicle {
         streamer = new Streamer(this);
         
         // Initialize state endpoints
+        AllData = tesla.vehicleSpecific(vehicleID, "vehicle_data");
         ChargeEndpoint = tesla.vehicleData(vehicleID, "charge_state");
         DriveEndpoint = tesla.vehicleData(vehicleID, "drive_state");
         GUIEndpoint = tesla.vehicleData(vehicleID, "gui_settings");
@@ -197,7 +197,10 @@ public class Vehicle {
                 return null;
         }
     }
-    
+
+    public Data queryData() throws JSONException {
+        return new Data(tesla.getState(AllData));
+    }
     public ChargeState queryCharge() {
         return new ChargeState(tesla.getState(ChargeEndpoint));
     }
